@@ -76,13 +76,20 @@ jobs:
         docker stop test-container
 
   # Uncomment and configure when ready to deploy
-  # deploy:
-  #   runs-on: ubuntu-latest
-  #   needs: docker-build
-  #   if: github.ref == 'refs/heads/main'
-  #   
-  #   steps:
-  #   - name: Deploy to production
-  #     run: |
-  #       # Add deployment steps here
-  #       # Example: Deploy to AWS, GCP, Azure, etc.
+  deploy:
+    runs-on: ubuntu-latest
+    needs: docker-build
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Install Railway CLI
+      run: |
+        npm install -g @railway/cli
+
+    - name: Deploy to Railway
+      run: railway up
+      env:
+        RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
