@@ -1,5 +1,5 @@
 import { Entity, PrimaryColumn, Column } from 'typeorm';
-import { Genre, Preferences, WatchHistoryItem } from '../common/types';
+import { Preferences, WatchHistoryItem } from '../common/types';
 
 @Entity('users')
 export class User {
