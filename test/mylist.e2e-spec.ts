@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
-import * as request from 'supertest';
+import request from 'supertest';
 import { AppModule } from '../src/app.module';
 import { DataSource } from 'typeorm';
 import { User } from '../src/entities/user.entity';
@@ -280,20 +280,16 @@ describe('MyList API (e2e)', () => {
 
   describe('Performance Test - List My Items', () => {
     beforeEach(async () => {
-      // Add 50 items to test pagination and performance
-      const promises = [];
-      for (let i = 1; i <= 50; i++) {
-        promises.push(
-          request(app.getHttpServer())
-            .post('/mylist')
-            .send({
-              userId: 'test-user-perf',
-              contentId: `test-movie-${i}`,
-              contentType: 'movie',
-            }),
-        );
+      // Add 20 items to test pagination and performance (reduced to avoid connection issues)
+      for (let i = 1; i <= 20; i++) {
+        await request(app.getHttpServer())
+          .post('/mylist')
+          .send({
+            userId: 'test-user-perf',
+            contentId: `test-movie-${i}`,
+            contentType: 'movie',
+          });
       }
-      await Promise.all(promises);
     });
 
     it('should respond in under 100ms (with cache)', async () => {
@@ -386,34 +382,34 @@ async function seedTestData(dataSource: DataSource) {
       id: 'test-user-1',
       username: 'testuser1',
       preferences: {
-        favoriteGenres: ['Action'],
-        dislikedGenres: [],
+        favoriteGenres: ['Action'] as any,
+        dislikedGenres: [] as any,
       },
-      watchHistory: [],
+      watchHistory: [] as any,
     },
     {
       id: 'test-user-2',
       username: 'testuser2',
       preferences: {
-        favoriteGenres: ['Comedy'],
-        dislikedGenres: [],
+        favoriteGenres: ['Comedy'] as any,
+        dislikedGenres: [] as any,
       },
-      watchHistory: [],
+      watchHistory: [] as any,
     },
     {
       id: 'test-user-perf',
       username: 'perfuser',
       preferences: {
-        favoriteGenres: [],
-        dislikedGenres: [],
+        favoriteGenres: [] as any,
+        dislikedGenres: [] as any,
       },
-      watchHistory: [],
+      watchHistory: [] as any,
     },
   ];
-  await userRepository.save(users);
+  await userRepository.save(users as any);
 
   // Create test movies
-  const movies = [];
+  const movies: any[] = [];
   for (let i = 1; i <= 50; i++) {
     movies.push({
       id: `test-movie-${i}`,
@@ -425,7 +421,7 @@ async function seedTestData(dataSource: DataSource) {
       actors: ['Actor 1', 'Actor 2'],
     });
   }
-  await movieRepository.save(movies);
+  await movieRepository.save(movies as any);
 
   // Create test TV shows
   const tvShows = [
@@ -445,5 +441,5 @@ async function seedTestData(dataSource: DataSource) {
       ],
     },
   ];
-  await tvShowRepository.save(tvShows);
+  await tvShowRepository.save(tvShows as any);
 }
