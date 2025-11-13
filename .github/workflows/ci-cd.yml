@@ -72,7 +72,7 @@ jobs:
       run: |
         docker run -d -p 3000:3000 --name test-container mylist-api:latest
         sleep 10
-        curl -f http://localhost:3000 || exit 1
+        curl -f http://localhost:3000/api || exit 1
         docker stop test-container
 
   # Uncomment and configure when ready to deploy
