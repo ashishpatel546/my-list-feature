@@ -75,21 +75,28 @@ jobs:
         curl -f http://localhost:3000/api || exit 1
         docker stop test-container
 
-  # Uncomment and configure when ready to deploy
-  deploy:
-    runs-on: ubuntu-latest
-    needs: docker-build
-    if: github.ref == 'refs/heads/main'
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
-    - name: Install Railway CLI
-      run: |
-        npm install -g @railway/cli
-
-    - name: Deploy to Railway
-      run: railway up
-      env:
-        RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+  # Deployment is handled by Railway's GitHub integration
+  # To enable manual deployment via GitHub Actions:
+  # 1. Create Railway project at https://railway.app
+  # 2. Get Service ID: railway status
+  # 3. Add RAILWAY_SERVICE_ID to GitHub Secrets
+  # 4. Uncomment the deploy job below
+  
+  # deploy:
+  #   runs-on: ubuntu-latest
+  #   needs: docker-build
+  #   if: github.ref == 'refs/heads/main'
+  #   
+  #   steps:
+  #   - name: Checkout code
+  #     uses: actions/checkout@v3
+  #
+  #   - name: Install Railway CLI
+  #     run: |
+  #       npm install -g @railway/cli
+  #
+  #   - name: Deploy to Railway
+  #     run: |
+  #       railway up --service ${{ secrets.RAILWAY_SERVICE_ID }}
+  #     env:
+  #       RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
