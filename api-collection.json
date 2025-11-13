@@ -1,0 +1,117 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "resources": [
+    {
+      "_type": "request_group",
+      "name": "My List API",
+      "description": "API endpoints for My List feature"
+    },
+    {
+      "_type": "request",
+      "parentId": "wrk_1",
+      "name": "Add Movie to List",
+      "method": "POST",
+      "url": "http://localhost:3000/mylist",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"userId\": \"user-1\",\n  \"contentId\": \"movie-1\",\n  \"contentType\": \"movie\"\n}"
+      },
+      "description": "Add a movie to user's list"
+    },
+    {
+      "_type": "request",
+      "parentId": "wrk_1",
+      "name": "Add TV Show to List",
+      "method": "POST",
+      "url": "http://localhost:3000/mylist",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"userId\": \"user-1\",\n  \"contentId\": \"tvshow-1\",\n  \"contentType\": \"tvshow\"\n}"
+      },
+      "description": "Add a TV show to user's list"
+    },
+    {
+      "_type": "request",
+      "parentId": "wrk_1",
+      "name": "Get User's List",
+      "method": "GET",
+      "url": "http://localhost:3000/mylist?userId=user-1&page=1&limit=10",
+      "description": "Get paginated list of items in user's list"
+    },
+    {
+      "_type": "request",
+      "parentId": "wrk_1",
+      "name": "Remove from List",
+      "method": "DELETE",
+      "url": "http://localhost:3000/mylist",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"userId\": \"user-1\",\n  \"contentId\": \"movie-1\"\n}"
+      },
+      "description": "Remove an item from user's list"
+    },
+    {
+      "_type": "request",
+      "parentId": "wrk_1",
+      "name": "Get List - Page 2",
+      "method": "GET",
+      "url": "http://localhost:3000/mylist?userId=user-1&page=2&limit=5",
+      "description": "Get second page with 5 items per page"
+    },
+    {
+      "_type": "request",
+      "parentId": "wrk_1",
+      "name": "Error - Duplicate Item",
+      "method": "POST",
+      "url": "http://localhost:3000/mylist",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"userId\": \"user-1\",\n  \"contentId\": \"movie-1\",\n  \"contentType\": \"movie\"\n}"
+      },
+      "description": "Try adding duplicate item (should return 409)"
+    },
+    {
+      "_type": "request",
+      "parentId": "wrk_1",
+      "name": "Error - Invalid Content",
+      "method": "POST",
+      "url": "http://localhost:3000/mylist",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"userId\": \"user-1\",\n  \"contentId\": \"non-existent\",\n  \"contentType\": \"movie\"\n}"
+      },
+      "description": "Try adding non-existent content (should return 404)"
+    }
+  ]
+}

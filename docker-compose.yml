@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  mylist-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mylist-api
+    ports:
+      - "${SERVICE_PORT:-3000}:3000"
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+      - SERVICE_PORT=${SERVICE_PORT:-3000}
+      - DB_TYPE=${DB_TYPE:-sqlite}
+      - DB_DATABASE=${DB_DATABASE:-mylist.db}
+      - CACHE_TTL=${CACHE_TTL:-60000}
+      - CACHE_MAX_ITEMS=${CACHE_MAX_ITEMS:-1000}
+    volumes:
+      - ./data:/app/data
+      - ./mylist.db:/app/mylist.db
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
